@@ -25,7 +25,7 @@ public class Credenciais extends EntidadeBase {
 	@Column(unique = true)
 	private String email;
 	
-	@DateTimeFormat(pattern = "yyyy/MM/dd")
+	@DateTimeFormat(pattern = "dd/MM/yyyy")
 	private Date nascimento;
 
 	@NotEmpty(message = "O cep não pode ser em branco")
