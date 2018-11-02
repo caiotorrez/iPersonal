@@ -3,10 +3,10 @@ package com.ipersonal.repository;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.rest.webmvc.RepositoryRestController;
 
-import com.ipersonal.model.Credenciais;
+import com.ipersonal.model.Perfil;
 
 @RepositoryRestController
-public interface CredenciaisRepository extends PagingAndSortingRepository<Credenciais, Long> {
+public interface CredenciaisRepository extends PagingAndSortingRepository<Perfil, Long> {
 	
 	
 	

@@ -3,6 +3,7 @@ package com.ipersonal.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
@@ -14,10 +15,11 @@ public class Professor extends EntidadeBase {
 	private static final long serialVersionUID = 1L;
 	
 	@OneToOne
-	private Credenciais credenciais;
+	private Perfil perfil;
 	
 	@OneToMany
-	private List<Usuario> usuarios = new ArrayList<>();
+	@Column(name = "alunos_do_professor")
+	private List<Aluno> alunos = new ArrayList<Aluno>();
 	
 	@NotNull(message = "O CREF não pode ser em branco")
 	private String cref;
@@ -25,17 +27,17 @@ public class Professor extends EntidadeBase {
 	public Professor() {
 	}
 	
-	public Professor(Credenciais credenciais, String cref) {
-		this.credenciais = credenciais;
+	public Professor(Perfil perfil, String cref) {
+		this.perfil = perfil;
 		this.cref = cref;
 	}
 
-	public Credenciais getCredenciais() {
-		return credenciais;
+	public Perfil getPerfil() {
+		return perfil;
 	}
 
-	public void setCredenciais(Credenciais credenciais) {
-		this.credenciais = credenciais;
+	public void setPerfil(Perfil perfil) {
+		this.perfil = perfil;
 	}
 
 	public String getCref() {

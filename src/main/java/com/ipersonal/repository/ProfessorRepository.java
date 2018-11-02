@@ -8,6 +8,6 @@ import com.ipersonal.model.Professor;
 
 public interface ProfessorRepository extends PagingAndSortingRepository<Professor, Long> {
 	
-	List<Professor> findAllByCredenciaisPrimeiroNomeStartingWithAndEnabledIsTrue(String nome);
+	List<Professor> findAllByPerfilPrimeiroNomeStartingWithAndEnabledIsTrue(String nome);
 
 }

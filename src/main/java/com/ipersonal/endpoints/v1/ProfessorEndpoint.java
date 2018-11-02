@@ -37,7 +37,7 @@ public class ProfessorEndpoint {
 	@GetMapping
 	public ResponseEntity<List<Professor>> getList(@RequestParam(value = "nome", defaultValue = "") String nome) {
 		List<Professor> lista = this.professorRepository
-				.findAllByCredenciaisPrimeiroNomeStartingWithAndEnabledIsTrue(nome);
+				.findAllByPerfilPrimeiroNomeStartingWithAndEnabledIsTrue(nome);
 		return ResponseEntity.ok(lista);			
 	}
 	

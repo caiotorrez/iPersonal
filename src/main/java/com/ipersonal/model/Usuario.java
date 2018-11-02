@@ -14,10 +14,10 @@ public class Usuario extends EntidadeBase {
 
 	@NotNull(message = "O password do usuário não pode ser em branco")
 	private String password;
-//
-//	@OneToOne
-//	private Aluno aluno;
-//	
+
+	@OneToOne
+	private Aluno aluno;
+	
 	@OneToOne
 	private Professor professor;
 	
