@@ -2,6 +2,7 @@ package com.ipersonal.config.security.service;
 
 import java.util.Collection;
 
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -15,12 +16,16 @@ public class CustomUserDetails extends Usuario implements UserDetails {
 	
 	public CustomUserDetails(Usuario usuario) {
 		super(usuario);
-		this.role = this.getProfessor() != null ? "ROLE_ALUNO" : "ROLE_PROFESSOR";
+		this.role = this.getProfessor() == null ? "ROLE_ALUNO" : "ROLE_ADMIN";
+		System.err.println(role);
 	}
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-		return AuthorityUtils.createAuthorityList(this.role);
+		if (this.isAccountNonLocked() && this.isAccountNonExpired() && this.isCredentialsNonExpired() && this.isEnabled()) {
+			return AuthorityUtils.createAuthorityList(this.role);
+		}
+		throw new AccessDeniedException("Acesso negado");
 	}
 	
 	@Override
@@ -30,22 +35,22 @@ public class CustomUserDetails extends Usuario implements UserDetails {
 
 	@Override
 	public boolean isAccountNonExpired() {
-		return true;
+		return this.enabled;
 	}
 
 	@Override
 	public boolean isAccountNonLocked() {
-		return true;
+		return this.enabled;
 	}
 
 	@Override
 	public boolean isCredentialsNonExpired() {
-		return true;
+		return this.enabled;
 	}
 
 	@Override
 	public boolean isEnabled() {
-		return true;
+		return this.enabled;
 	}
 
 }

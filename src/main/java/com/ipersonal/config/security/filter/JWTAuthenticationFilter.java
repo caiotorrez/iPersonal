@@ -41,7 +41,7 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 			return this.authenticationManager.authenticate(authToken);
 			
 		} catch (Exception e) {
-			throw new RuntimeException();
+			throw new RuntimeException(e.getMessage());
 		}
 	}
 	
@@ -52,7 +52,6 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 		String username = usuario.getEmail();
 		String accessType = usuario.getProfessor() == null ? "aluno" : "professor";
 		String token = this.tokenUtil.buildJwtToken(username, accessType);
-		response.addHeader("Content-Type", "application/json;charset=UTF-8");
 		response.addHeader(HttpHeaders.AUTHORIZATION, "Bearer " + token);
 	}
 
