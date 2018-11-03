@@ -18,7 +18,7 @@ public class EntidadeBase implements Serializable {
 	protected Long id;
 	
     @Column(columnDefinition = "boolean default true", nullable = false)
-    private boolean enabled = true;
+    protected boolean enabled = true;
 
 	public Long getId() {
 		return id;

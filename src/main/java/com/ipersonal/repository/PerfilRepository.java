@@ -6,7 +6,7 @@ import org.springframework.data.rest.webmvc.RepositoryRestController;
 import com.ipersonal.model.Perfil;
 
 @RepositoryRestController
-public interface CredenciaisRepository extends PagingAndSortingRepository<Perfil, Long> {
+public interface PerfilRepository extends PagingAndSortingRepository<Perfil, Long> {
 	
 	
 	

@@ -2,9 +2,7 @@ package com.ipersonal.model;
 
 import java.util.Date;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Pattern;
 
@@ -24,11 +22,6 @@ public class Perfil extends EntidadeBase {
 	@Length(min = 3, max = 40, message = "Deve ser no mínimo 5 e no máximo 40 caractérs")
 	private String segundoNome;
 	
-	@NotEmpty(message = "O email não pode ser em branco")
-	@Email(message = "O email tem que ser válido")
-	@Column(unique = true)
-	private String email;
-	
 	@DateTimeFormat(pattern = "dd/MM/yyyy")
 	@NotEmpty(message = "A data não pode ser em branco")
 	private Date nascimento;
@@ -40,11 +33,10 @@ public class Perfil extends EntidadeBase {
 	@NotEmpty(message = "O número do celular não pode ser em branco")
 	private String celphone;
 
-	public Perfil(String primeiroNome,String segundoNome, String email,
+	public Perfil(String primeiroNome,String segundoNome,
 			Date nascimento,String cep, String celphone) {
 		this.primeiroNome = primeiroNome;
 		this.segundoNome = segundoNome;
-		this.email = email;
 		this.nascimento = nascimento;
 		this.cep = cep;
 		this.celphone = celphone;
@@ -67,14 +59,6 @@ public class Perfil extends EntidadeBase {
 
 	public void setSegundoNome(String segundoNome) {
 		this.segundoNome = segundoNome;
-	}
-
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
 	}
 
 	public Date getNascimento() {
@@ -103,7 +87,7 @@ public class Perfil extends EntidadeBase {
 
 	@Override
 	public String toString() {
-		return "Credenciais [primeiroNome=" + primeiroNome + ", segundoNome=" + segundoNome + ", email=" + email
+		return "Credenciais [primeiroNome=" + primeiroNome + ", segundoNome=" + segundoNome
 				+ ", nascimento=" + nascimento + ", cep=" + cep + ", celphone=" + celphone + "]";
 	}
 }

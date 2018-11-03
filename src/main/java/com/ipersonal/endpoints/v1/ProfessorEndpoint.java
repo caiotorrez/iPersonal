@@ -41,9 +41,9 @@ public class ProfessorEndpoint {
 		return ResponseEntity.ok(lista);			
 	}
 	
-	@GetMapping(path = "{id}")
-	public ResponseEntity<Professor> get(@PathVariable Long id) {
-		Professor professor = this.professorRepository.findById(id).
+	@GetMapping(path = "{email}")
+	public ResponseEntity<Professor> get(@PathVariable String email) {
+		Professor professor = this.professorRepository.findByUsuarioEmail(email).
 				orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Não Encontrado"));
 		return ResponseEntity.ok(professor);
 	}

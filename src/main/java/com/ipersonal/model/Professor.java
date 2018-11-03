@@ -3,21 +3,31 @@ package com.ipersonal.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
-import javax.persistence.OneToMany;
+import javax.persistence.MapsId;
 import javax.persistence.OneToOne;
 import javax.validation.constraints.NotNull;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class Professor extends EntidadeBase {
 
 	private static final long serialVersionUID = 1L;
 	
-	@OneToOne
+	@OneToOne(cascade = CascadeType.ALL)
 	private Perfil perfil;
+
 	
-	@OneToMany
+	@JsonIgnore
+	@OneToOne
+	@MapsId
+	private Usuario usuario;
+	
+	@ElementCollection
 	@Column(name = "alunos_do_professor")
 	private List<Aluno> alunos = new ArrayList<Aluno>();
 	
@@ -30,6 +40,22 @@ public class Professor extends EntidadeBase {
 	public Professor(Perfil perfil, String cref) {
 		this.perfil = perfil;
 		this.cref = cref;
+	}
+
+	public Usuario getUsuario() {
+		return usuario;
+	}
+
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
+	}
+
+	public List<Aluno> getAlunos() {
+		return alunos;
+	}
+
+	public void setAlunos(List<Aluno> alunos) {
+		this.alunos = alunos;
 	}
 
 	public Perfil getPerfil() {
