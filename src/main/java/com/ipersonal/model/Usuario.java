@@ -21,6 +21,7 @@ public class Usuario extends EntidadeBase {
 	@NotNull(message = "O password do usuário não pode ser em branco")
 	private String password;
 
+	@OneToOne(mappedBy = "usuario", cascade = CascadeType.ALL)
 	private Aluno aluno;
 	
 	@OneToOne(mappedBy = "usuario", cascade = CascadeType.ALL)

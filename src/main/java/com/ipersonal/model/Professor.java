@@ -1,13 +1,13 @@
 package com.ipersonal.model;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.MapsId;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.validation.constraints.NotNull;
 
@@ -18,21 +18,21 @@ public class Professor extends EntidadeBase {
 
 	private static final long serialVersionUID = 1L;
 	
-	@OneToOne(cascade = CascadeType.ALL)
+	@NotNull
+	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private Perfil perfil;
-
 	
+	@NotNull(message = "O CREF não pode ser em branco")
+	private String cref;
+
 	@JsonIgnore
 	@OneToOne
 	@MapsId
 	private Usuario usuario;
 	
-	@ElementCollection
-	@Column(name = "alunos_do_professor")
-	private List<Aluno> alunos = new ArrayList<Aluno>();
+	@OneToMany(mappedBy = "professor")
+	private Set<Aluno> alunos = new HashSet<>();
 	
-	@NotNull(message = "O CREF não pode ser em branco")
-	private String cref;
 	
 	public Professor() {
 	}
@@ -50,11 +50,11 @@ public class Professor extends EntidadeBase {
 		this.usuario = usuario;
 	}
 
-	public List<Aluno> getAlunos() {
+	public Set<Aluno> getAlunos() {
 		return alunos;
 	}
 
-	public void setAlunos(List<Aluno> alunos) {
+	public void setAlunos(Set<Aluno> alunos) {
 		this.alunos = alunos;
 	}
 
