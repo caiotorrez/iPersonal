@@ -2,7 +2,6 @@ package com.ipersonal.config.security;
 
 import java.io.Serializable;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -28,7 +27,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter implements Seri
 	private final TokenUtil tokenUtil;
 	private static final String[] PUBLIC_MATCHERS = {};
 	
-	@Autowired
 	public SecurityConfig(CustomUserDetailsService customUserDetailsService, TokenUtil tokenUtil) {
 		this.customUserDetailsService = customUserDetailsService;
 		this.tokenUtil = tokenUtil;
