@@ -5,7 +5,6 @@ import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.MapsId;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
@@ -18,27 +17,22 @@ public class Professor extends EntidadeBase {
 
 	private static final long serialVersionUID = 1L;
 	
-	@NotNull
-	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-	private Perfil perfil;
-	
-	@NotNull(message = "O CREF não pode ser em branco")
-	private String cref;
-
 	@JsonIgnore
 	@OneToOne
 	@MapsId
 	private Usuario usuario;
 	
-	@OneToMany(mappedBy = "professor")
+	@NotNull(message = "O CREF não pode ser em branco")
+	private String cref;
+	
+	@OneToMany(mappedBy = "professor", cascade = CascadeType.ALL)
 	private Set<Aluno> alunos = new HashSet<>();
 	
 	
 	public Professor() {
 	}
 	
-	public Professor(Perfil perfil, String cref) {
-		this.perfil = perfil;
+	public Professor(String cref) {
 		this.cref = cref;
 	}
 
@@ -56,14 +50,6 @@ public class Professor extends EntidadeBase {
 
 	public void setAlunos(Set<Aluno> alunos) {
 		this.alunos = alunos;
-	}
-
-	public Perfil getPerfil() {
-		return perfil;
-	}
-
-	public void setPerfil(Perfil perfil) {
-		this.perfil = perfil;
 	}
 
 	public String getCref() {

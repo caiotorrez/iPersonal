@@ -11,9 +11,7 @@ import com.ipersonal.model.Professor;
 @RepositoryRestController
 public interface ProfessorRepository extends PagingAndSortingRepository<Professor, Long> {
 	
-	List<Professor> findAllByPerfilPrimeiroNomeStartingWithAndEnabledIsTrue(String nome);
-
-	Optional<Professor> findOneByUsuarioEmail(String email);
+	List<Professor> findAllByUsuarioPerfilPrimeiroNomeStartingWithAndEnabledIsTrue(String nome);
 
 	Optional<Professor> findByUsuarioEmail(String email);
 }

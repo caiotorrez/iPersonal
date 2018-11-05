@@ -3,10 +3,13 @@ package com.ipersonal.model;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.OneToOne;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class Usuario extends EntidadeBase {
@@ -19,7 +22,10 @@ public class Usuario extends EntidadeBase {
 	protected String email;
 
 	@NotNull(message = "O password do usuário não pode ser em branco")
-	private String password;
+	protected String password;
+	
+	@OneToOne(mappedBy = "usuario", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	private Perfil perfil;
 
 	@OneToOne(mappedBy = "usuario", cascade = CascadeType.ALL)
 	private Aluno aluno;
@@ -37,6 +43,7 @@ public class Usuario extends EntidadeBase {
 		this.aluno = usuario.getAluno();
 	}
 
+	@JsonIgnore
 	public String getEmail() {
 		return email;
 	}
@@ -45,6 +52,7 @@ public class Usuario extends EntidadeBase {
 		this.email = email;
 	}
 
+	@JsonIgnore
 	public String getPassword() {
 		return password;
 	}

@@ -50,8 +50,6 @@ public class EntidadeBase implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		EntidadeBase other = (EntidadeBase) obj;
-		if (enabled != other.enabled)
-			return false;
 		if (id == null) {
 			if (other.id != null)
 				return false;

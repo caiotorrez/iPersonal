@@ -20,7 +20,9 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import com.ipersonal.model.Perfil;
 import com.ipersonal.model.Professor;
+import com.ipersonal.repository.PerfilRepository;
 import com.ipersonal.repository.ProfessorRepository;
 
 @RestController
@@ -28,24 +30,33 @@ import com.ipersonal.repository.ProfessorRepository;
 public class ProfessorEndpoint {
 	
 	private final ProfessorRepository professorRepository;
+	private final PerfilRepository perfilRepository;
 	
 	@Autowired
-	public ProfessorEndpoint(ProfessorRepository professorRepository) {
+	public ProfessorEndpoint(ProfessorRepository professorRepository, PerfilRepository perfilRepository) {
 		this.professorRepository = professorRepository;
+		this.perfilRepository = perfilRepository;
 	}
 
 	@GetMapping
 	public ResponseEntity<List<Professor>> getList(@RequestParam(value = "nome", defaultValue = "") String nome) {
 		List<Professor> lista = this.professorRepository
-				.findAllByPerfilPrimeiroNomeStartingWithAndEnabledIsTrue(nome);
+				.findAllByUsuarioPerfilPrimeiroNomeStartingWithAndEnabledIsTrue(nome);
 		return ResponseEntity.ok(lista);			
 	}
 	
 	@GetMapping(path = "{email}")
-	public ResponseEntity<Professor> get(@PathVariable String email) {
+	public ResponseEntity<Professor> getProfessor(@PathVariable String email) {
 		Professor professor = this.professorRepository.findByUsuarioEmail(email).
 				orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Não Encontrado"));
 		return ResponseEntity.ok(professor);
+	}
+	
+	@GetMapping(path = "{email}/perfil")
+	public ResponseEntity<Perfil> getPerfil(@PathVariable String email) {
+		Perfil perfil = this.perfilRepository.findByUsuarioEmail(email).
+				orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Não Encontrado"));
+		return ResponseEntity.ok(perfil);
 	}
 	
 	@PostMapping

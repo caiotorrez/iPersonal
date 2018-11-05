@@ -3,16 +3,25 @@ package com.ipersonal.model;
 import java.util.Date;
 
 import javax.persistence.Entity;
+import javax.persistence.MapsId;
+import javax.persistence.OneToOne;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Pattern;
 
 import org.hibernate.validator.constraints.Length;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class Perfil extends EntidadeBase {
 
 	private static final long serialVersionUID = 1L;
+	
+	@OneToOne
+	@MapsId
+	@JsonIgnore
+	private Usuario usuario;
 
 	@NotEmpty(message = "O primeiro nome não pode ser em branco")
 	@Length(min = 3, max = 40, message = "Deve ser no mínimo 5 e no máximo 40 caractérs")
@@ -43,6 +52,14 @@ public class Perfil extends EntidadeBase {
 	}
 	
 	public Perfil() {
+	}
+
+	public Usuario getUsuario() {
+		return usuario;
+	}
+
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
 	}
 
 	public String getPrimeiroNome() {

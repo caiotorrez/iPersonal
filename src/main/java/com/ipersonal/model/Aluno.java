@@ -1,13 +1,15 @@
 package com.ipersonal.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.MapsId;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
-import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -21,21 +23,14 @@ public class Aluno extends EntidadeBase {
 	@MapsId
 	private Usuario usuario;
 	
-	@NotNull
-	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-	private Perfil perfil;
-	
 	@ManyToOne
 	@JoinColumn(name = "professor_id")
 	private Professor professor;
+
+	@JsonIgnore
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "aluno")
+	private List<FichaAvaliacaoFisica> fichaAvaliacaoFisica = new ArrayList<FichaAvaliacaoFisica>();
 	
-//	@ElementCollection
-//	private List<FichaAvaliacaoFisica> fichaAvaliacaoFisica = new ArrayList<FichaAvaliacaoFisica>();
-//	
-//	@OneToOne
-//	private Anamnese anamnese;
-//	
-//	@ElementCollection
 //	private List<FichaTreino> fichaTreino = new ArrayList<FichaTreino>();
 
 }
