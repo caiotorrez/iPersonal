@@ -24,10 +24,8 @@ public class CustomUserDetailsService implements UserDetailsService, Serializabl
 	
 	@Override
 	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-		Usuario usuario = this.usuarioRepository.findByEmail(email);
-		if (usuario == null) {
-			throw new UsernameNotFoundException("Usuário não encontrado");
-		}
+		Usuario usuario = this.usuarioRepository.findByEmail(email)
+				.orElseThrow(() -> new UsernameNotFoundException("Usuário não encontrado"));
 		return new CustomUserDetails(usuario);
 	}
 }

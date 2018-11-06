@@ -34,15 +34,17 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 	@Override
 	public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
 		
+		Credenciais usuario;
+		
 		try {
-			Credenciais usuario = new ObjectMapper().readValue(request.getInputStream(), Credenciais.class);
-			UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(usuario.getEmail(), usuario.getPassword());
-			this.setDetails(request, authToken);
-			return this.authenticationManager.authenticate(authToken);
-			
+			usuario = new ObjectMapper().readValue(request.getInputStream(), Credenciais.class);
 		} catch (Exception e) {
-			throw new RuntimeException(e.getMessage());
+			throw new RuntimeException("Acesso Negado!");
 		}
+		UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(usuario.getEmail(), usuario.getPassword());
+		this.setDetails(request, authToken);
+		return this.authenticationManager.authenticate(authToken);
+		
 	}
 	
 	@Override

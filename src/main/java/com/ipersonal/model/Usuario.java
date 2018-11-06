@@ -41,6 +41,7 @@ public class Usuario extends EntidadeBase {
 		this.email = usuario.getEmail();
 		this.professor = usuario.getProfessor();
 		this.aluno = usuario.getAluno();
+		this.enabled = usuario.isEnabled();
 	}
 
 	@JsonIgnore

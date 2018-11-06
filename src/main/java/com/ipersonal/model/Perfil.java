@@ -11,6 +11,7 @@ import javax.validation.constraints.Pattern;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
@@ -77,7 +78,8 @@ public class Perfil extends EntidadeBase {
 	public void setSegundoNome(String segundoNome) {
 		this.segundoNome = segundoNome;
 	}
-
+	
+	@JsonFormat(pattern="dd/MM/yyyy")
 	public Date getNascimento() {
 		return nascimento;
 	}
