@@ -22,6 +22,10 @@ public class Professor extends EntidadeBase {
 	@MapsId
 	private Usuario usuario;
 	
+	@OneToOne
+	@MapsId
+	private Perfil perfil;
+	
 	@NotNull(message = "O CREF não pode ser em branco")
 	private String cref;
 	
@@ -58,6 +62,14 @@ public class Professor extends EntidadeBase {
 
 	public void setCref(String cref) {
 		this.cref = cref;
+	}
+
+	public Perfil getPerfil() {
+		return perfil;
+	}
+
+	public void setPerfil(Perfil perfil) {
+		this.perfil = perfil;
 	}
 	
 }

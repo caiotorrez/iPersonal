@@ -1,10 +1,12 @@
 package com.ipersonal.endpoints.v1;
 
-import java.util.List;
-
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.Errors;
@@ -20,43 +22,42 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.ipersonal.model.Perfil;
 import com.ipersonal.model.Professor;
-import com.ipersonal.repository.PerfilRepository;
 import com.ipersonal.repository.ProfessorRepository;
 
 @RestController
-@RequestMapping("/v1/admin/professor")
+@RequestMapping("/v1/professor")
 public class ProfessorEndpoint {
 	
 	private final ProfessorRepository professorRepository;
-	private final PerfilRepository perfilRepository;
 	
 	@Autowired
-	public ProfessorEndpoint(ProfessorRepository professorRepository, PerfilRepository perfilRepository) {
+	public ProfessorEndpoint(ProfessorRepository professorRepository) {
 		this.professorRepository = professorRepository;
-		this.perfilRepository = perfilRepository;
-	}
-
-	@GetMapping
-	public ResponseEntity<List<Professor>> getList(@RequestParam(value = "nome", defaultValue = "") String nome) {
-		List<Professor> lista = this.professorRepository
-				.findAllByUsuarioPerfilPrimeiroNomeStartingWithAndEnabledIsTrue(nome);
-		return ResponseEntity.ok(lista);			
 	}
 	
-	@GetMapping(path = "{email}")
-	public ResponseEntity<Professor> getProfessor(@PathVariable String email) {
-		Professor professor = this.professorRepository.findByUsuarioEmail(email).
+	@GetMapping
+	public ResponseEntity<Page<Professor>> findPage(
+			@RequestParam(value="page", defaultValue="0") Integer page,
+			@RequestParam(value="linesPerPage", defaultValue="24") Integer size,
+			@RequestParam(value="direction", defaultValue="ASC") String direction,
+			@RequestParam(value="orderBy", defaultValue="Perfil.nome") String propiedades) {
+		Pageable pageRequest = PageRequest.of(page, size, Direction.valueOf(direction), propiedades);
+		return ResponseEntity.ok((this.professorRepository.findAll(pageRequest)));
+	}
+	
+	@GetMapping(path = "{id}")
+	public ResponseEntity<Professor> getProfessor(@PathVariable Long id) {
+		Professor professor = this.professorRepository.findById(id).
 				orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Não Encontrado"));
 		return ResponseEntity.ok(professor);
 	}
 	
-	@GetMapping(path = "{email}/perfil")
-	public ResponseEntity<Perfil> getPerfil(@PathVariable String email) {
-		Perfil perfil = this.perfilRepository.findByUsuarioEmail(email).
+	@GetMapping(path = "{id}/perfil")
+	public ResponseEntity<Professor> getPerfil(@PathVariable Long id) {
+		Professor professor = this.professorRepository.findById(id).
 				orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Não Encontrado"));
-		return ResponseEntity.ok(perfil);
+		return ResponseEntity.ok(professor);
 	}
 	
 	@PostMapping
@@ -68,7 +69,7 @@ public class ProfessorEndpoint {
 			throw new ResponseStatusException(HttpStatus.CONFLICT, "Usuário já cadastrado");
 		}
 		this.professorRepository.save(professor);
-		return ResponseEntity.created(ServletUriComponentsBuilder.fromCurrentRequest().path("{id}")
+		return ResponseEntity.created(ServletUriComponentsBuilder.fromCurrentRequest().path("{user-id}")
 				.buildAndExpand(professor.getId()).toUri()).build();
 	}
 	
@@ -78,7 +79,7 @@ public class ProfessorEndpoint {
 			throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "Corpo da requisição inválido.");
 		}
 		if (!this.professorRepository.existsById(id)) {
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuário não cadastrado");
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuário não cadastrado", new NullPointerException());
 		}
 		this.professorRepository.save(professor);
 		return ResponseEntity.noContent().build();

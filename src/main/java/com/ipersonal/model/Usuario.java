@@ -3,7 +3,6 @@ package com.ipersonal.model;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.OneToOne;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
@@ -22,10 +21,7 @@ public class Usuario extends EntidadeBase {
 	protected String email;
 
 	@NotNull(message = "O password do usuário não pode ser em branco")
-	protected String password;
-	
-	@OneToOne(mappedBy = "usuario", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-	private Perfil perfil;
+	private String password;
 
 	@OneToOne(mappedBy = "usuario", cascade = CascadeType.ALL)
 	private Aluno aluno;

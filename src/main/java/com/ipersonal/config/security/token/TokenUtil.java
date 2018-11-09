@@ -46,7 +46,7 @@ public class TokenUtil {
 		try {
 			return Jwts.parser().setSigningKey(this.key).parseClaimsJws(token.replace("Bearer ", "")).getBody();
 		} catch (Exception e) {
-			throw new JwtException(e.getMessage());
+			throw new JwtException("Token inválido");
 		}
 	}
 	

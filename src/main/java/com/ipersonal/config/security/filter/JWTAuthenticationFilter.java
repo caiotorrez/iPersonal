@@ -13,6 +13,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.client.ResourceAccessException;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ipersonal.config.security.token.TokenUtil;
@@ -33,13 +34,12 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 	
 	@Override
 	public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
-		
+
 		Credenciais usuario;
-		
 		try {
 			usuario = new ObjectMapper().readValue(request.getInputStream(), Credenciais.class);
-		} catch (Exception e) {
-			throw new RuntimeException("Acesso Negado!");
+		} catch (java.io.IOException e) {
+			throw new ResourceAccessException("ok");
 		}
 		UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(usuario.getEmail(), usuario.getPassword());
 		this.setDetails(request, authToken);

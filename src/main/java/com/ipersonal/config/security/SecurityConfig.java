@@ -39,7 +39,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter implements Seri
 		.csrf().disable()
 		.authorizeRequests()
 		.antMatchers(PUBLIC_MATCHERS).permitAll()
-		.antMatchers("/*/admin/**").hasRole("ADMIN")
+		.antMatchers("/**").hasRole("ADMIN")
 		.antMatchers("/*/professor/**").hasRole("PROFESSOR")
 		.antMatchers("/*/aluno/**").hasRole("ALUNO")
 		.and()
