@@ -1,4 +1,4 @@
-package com.ipersonal.endpoints.v1.service;
+package com.ipersonal.v1.endpoint.service;
 
 public class ProfessorService {
 	

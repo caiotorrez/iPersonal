@@ -44,7 +44,7 @@ public class Perfil extends EntidadeBase {
 
 	@NotEmpty(message = "O número do celular não pode ser em branco")
 	private String celphone;
-
+	
 	public Perfil(String nome,String sobrenome,
 			Date nascimento,String cep, String celphone) {
 		this.nome = nome;
@@ -98,12 +98,6 @@ public class Perfil extends EntidadeBase {
 		this.celphone = celphone;
 	}
 
-	@Override
-	public String toString() {
-		return "Credenciais [primeiroNome=" + nome + ", segundoNome=" + sobrenome
-				+ ", nascimento=" + nascimento + ", cep=" + cep + ", celphone=" + celphone + "]";
-	}
-
 	public Professor getProfessor() {
 		return professor;
 	}
@@ -118,5 +112,11 @@ public class Perfil extends EntidadeBase {
 
 	public void setAluno(Aluno aluno) {
 		this.aluno = aluno;
+	}
+	
+	@Override
+	public String toString() {
+		return "Credenciais [primeiroNome=" + nome + ", segundoNome=" + sobrenome
+				+ ", nascimento=" + nascimento + ", cep=" + cep + ", celphone=" + celphone + "]";
 	}
 }

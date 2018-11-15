@@ -11,5 +11,7 @@ import com.ipersonal.model.Usuario;
 public interface UsuarioRepository extends PagingAndSortingRepository<Usuario, Long> {
 
 	Optional<Usuario> findByEmail(String email);
+	
+	boolean existsByEmail(String email);
 
 }

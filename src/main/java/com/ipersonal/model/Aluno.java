@@ -34,6 +34,8 @@ public class Aluno extends EntidadeBase {
 	@JsonIgnore
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "aluno")
 	private List<FichaAvaliacaoFisica> fichaAvaliacaoFisica = new ArrayList<FichaAvaliacaoFisica>();
+	
+	
 
 	public Usuario getUsuario() {
 		return usuario;
@@ -67,6 +69,4 @@ public class Aluno extends EntidadeBase {
 		this.fichaAvaliacaoFisica = fichaAvaliacaoFisica;
 	}
 	
-//	private List<FichaTreino> fichaTreino = new ArrayList<FichaTreino>();
-
 }
