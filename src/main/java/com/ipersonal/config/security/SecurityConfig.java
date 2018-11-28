@@ -9,24 +9,22 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.web.cors.CorsConfiguration;
 
 import com.ipersonal.config.security.filter.JWTAuthenticationFilter;
 import com.ipersonal.config.security.filter.JWTAuthorizationFilter;
 import com.ipersonal.config.security.service.CustomUserDetailsService;
 import com.ipersonal.config.security.token.TokenUtil;
 
-
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter implements Serializable {
 	private static final long serialVersionUID = 1L;
-	
-	
+
 	private final CustomUserDetailsService customUserDetailsService;
 	private final TokenUtil tokenUtil;
-	private static final String[] PUBLIC_MATCHERS = {};
-	
+	private static final String[] PUBLIC_MATCHERS = { "/cadastro", "/checkout/email", "/validation",
+			"/forgot-password", "/change-password", "/checkout/password" };
+
 	public SecurityConfig(CustomUserDetailsService customUserDetailsService, TokenUtil tokenUtil) {
 		this.customUserDetailsService = customUserDetailsService;
 		this.tokenUtil = tokenUtil;
@@ -34,20 +32,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter implements Seri
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http.cors().configurationSource(request -> new CorsConfiguration().applyPermitDefaultValues())
-		.and()
-		.csrf().disable()
-		.authorizeRequests()
-		.antMatchers(PUBLIC_MATCHERS).permitAll()
-		.antMatchers("/**").hasRole("ADMIN")
-		.antMatchers("/*/professor/**").hasRole("PROFESSOR")
-		.antMatchers("/*/aluno/**").hasRole("ALUNO")
-		.and()
-		.addFilter(new JWTAuthenticationFilter(this.authenticationManager(), this.tokenUtil))
-		.addFilter(new JWTAuthorizationFilter(this.authenticationManager(), this.tokenUtil, this.customUserDetailsService))
-		.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);	
+		http.cors().configurationSource(new ConfigurationCors()).and().csrf().disable().authorizeRequests()
+				.antMatchers(PUBLIC_MATCHERS).permitAll().antMatchers("/**").hasRole("ADMIN")
+				.antMatchers("/*/professor/**").hasRole("PROFESSOR").antMatchers("/*/aluno/**").hasRole("ALUNO").and()
+				.addFilter(new JWTAuthenticationFilter(this.authenticationManager(), this.tokenUtil))
+				.addFilter(new JWTAuthorizationFilter(this.authenticationManager(), this.tokenUtil,
+						this.customUserDetailsService))
+				.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 	}
-	
+
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 		auth.userDetailsService(this.customUserDetailsService).passwordEncoder(new BCryptPasswordEncoder());

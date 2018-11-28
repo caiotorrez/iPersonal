@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.MapsId;
@@ -14,28 +15,27 @@ import javax.persistence.OneToOne;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
-public class Aluno extends EntidadeBase {
-
+public class Aluno extends EntidadeFilha {
 	private static final long serialVersionUID = 1L;
-	
-	@JsonIgnore
+
 	@OneToOne
 	@MapsId
 	private Usuario usuario;
-	
-	@OneToOne
-	@MapsId
-	private Perfil perfil;
 	
 	@ManyToOne
 	@JoinColumn(name = "professor_id")
 	private Professor professor;
 
 	@JsonIgnore
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "aluno")
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "aluno", fetch = FetchType.EAGER)
 	private List<FichaAvaliacaoFisica> fichaAvaliacaoFisica = new ArrayList<FichaAvaliacaoFisica>();
 	
-	
+	public Aluno() {
+	}
+
+	public Aluno(Usuario usuario) {
+		this.usuario = usuario;
+	}
 
 	public Usuario getUsuario() {
 		return usuario;
@@ -43,14 +43,6 @@ public class Aluno extends EntidadeBase {
 
 	public void setUsuario(Usuario usuario) {
 		this.usuario = usuario;
-	}
-
-	public Perfil getPerfil() {
-		return perfil;
-	}
-
-	public void setPerfil(Perfil perfil) {
-		this.perfil = perfil;
 	}
 
 	public Professor getProfessor() {
@@ -68,5 +60,4 @@ public class Aluno extends EntidadeBase {
 	public void setFichaAvaliacaoFisica(List<FichaAvaliacaoFisica> fichaAvaliacaoFisica) {
 		this.fichaAvaliacaoFisica = fichaAvaliacaoFisica;
 	}
-	
 }

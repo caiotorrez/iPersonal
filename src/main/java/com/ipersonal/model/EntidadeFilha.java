@@ -2,23 +2,15 @@ package com.ipersonal.model;
 
 import java.io.Serializable;
 
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 
 @MappedSuperclass
-public class EntidadeBase implements Serializable {
-	
+public class EntidadeFilha implements Serializable {
 	private static final long serialVersionUID = 1L;
-
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	protected Long id;
 	
-    @Column(columnDefinition = "boolean default false", nullable = false)
-    protected boolean enabled = false;
+	@Id
+	protected Long id;
 
 	public Long getId() {
 		return id;
@@ -28,17 +20,12 @@ public class EntidadeBase implements Serializable {
 		this.id = id;
 	}
 
-	public boolean isEnabled() {
-		return enabled;
-	}
-
-	public void setEnabled(boolean enabled) {
-		this.enabled = enabled;
-	}
-
 	@Override
 	public int hashCode() {
-		return id != null ? id.hashCode() : 0;
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		return result;
 	}
 
 	@Override
@@ -49,7 +36,7 @@ public class EntidadeBase implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		EntidadeBase other = (EntidadeBase) obj;
+		EntidadeFilha other = (EntidadeFilha) obj;
 		if (id == null) {
 			if (other.id != null)
 				return false;
@@ -57,10 +44,7 @@ public class EntidadeBase implements Serializable {
 			return false;
 		return true;
 	}
-
-	@Override
-	public String toString() {
-		return "EntidadeBase [id=" + id + ", enabled=" + enabled + "]";
-	}
+	
+	
 
 }

@@ -24,6 +24,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.ipersonal.model.Professor;
 import com.ipersonal.repository.ProfessorRepository;
+import com.ipersonal.v1.endpoint.dto.ProfessorDTO;
 
 @RestController
 @RequestMapping("/v1/professor")
@@ -37,13 +38,14 @@ public class ProfessorEndpoint {
 	}
 	
 	@GetMapping
-	public ResponseEntity<Page<Professor>> findPage(
+	public ResponseEntity<Page<ProfessorDTO>> findPage(
 			@RequestParam(value="page", defaultValue="0") Integer page,
 			@RequestParam(value="linesPerPage", defaultValue="24") Integer size,
 			@RequestParam(value="direction", defaultValue="ASC") String direction,
 			@RequestParam(value="orderBy", defaultValue="Perfil.nome") String propiedades) {
 		Pageable pageRequest = PageRequest.of(page, size, Direction.valueOf(direction), propiedades);
-		return ResponseEntity.ok((this.professorRepository.findAll(pageRequest)));
+		Page<ProfessorDTO> pageProfessorPerfil = this.professorRepository.findAll(pageRequest).map(professor -> new ProfessorDTO(professor));
+		return ResponseEntity.ok(pageProfessorPerfil);
 	}
 	
 	@GetMapping(path = "{id}")

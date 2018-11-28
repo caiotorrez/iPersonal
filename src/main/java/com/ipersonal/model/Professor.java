@@ -17,15 +17,19 @@ public class Professor extends EntidadeBase {
 
 	private static final long serialVersionUID = 1L;
 	
-	@JsonIgnore
+	
 	@OneToOne
 	@MapsId
 	private Usuario usuario;
 	
-	@OneToOne
-	@MapsId
-	private Perfil perfil;
-	
+	public Usuario getUsuario() {
+		return usuario;
+	}
+
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
+	}
+
 	@NotNull(message = "O CREF não pode ser em branco")
 	private String cref;
 	
@@ -39,15 +43,6 @@ public class Professor extends EntidadeBase {
 	public Professor(String cref) {
 		this.cref = cref;
 	}
-
-	public Usuario getUsuario() {
-		return usuario;
-	}
-
-	public void setUsuario(Usuario usuario) {
-		this.usuario = usuario;
-	}
-
 	public Set<Aluno> getAlunos() {
 		return alunos;
 	}
@@ -63,13 +58,4 @@ public class Professor extends EntidadeBase {
 	public void setCref(String cref) {
 		this.cref = cref;
 	}
-
-	public Perfil getPerfil() {
-		return perfil;
-	}
-
-	public void setPerfil(Perfil perfil) {
-		this.perfil = perfil;
-	}
-	
 }

@@ -16,7 +16,7 @@ public class CustomUserDetails extends Usuario implements UserDetails {
 	
 	public CustomUserDetails(Usuario usuario) {
 		super(usuario);
-		this.role = this.getProfessor() == null ? "ROLE_ALUNO" : "ROLE_ADMIN";
+		this.role = this.getPassword() == null ? "ROLE_ALUNO" : "ROLE_ADMIN";
 	}
 
 	@Override

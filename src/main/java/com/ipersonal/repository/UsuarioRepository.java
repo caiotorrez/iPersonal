@@ -13,5 +13,12 @@ public interface UsuarioRepository extends PagingAndSortingRepository<Usuario, L
 	Optional<Usuario> findByEmail(String email);
 	
 	boolean existsByEmail(String email);
+	boolean existsByEmailAndEnabledTrue(String email);
+
+	Usuario findByIdToEnable(String idToEnable);
+
+	boolean existsByChangePasswordId(String changePasswordId);
+
+	Optional<Usuario> findByChangePasswordId(String changePasswordId);
 
 }

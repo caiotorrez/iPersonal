@@ -34,31 +34,28 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 	
 	@Override
 	public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
-
 		Credenciais usuario;
 		try {
 			usuario = new ObjectMapper().readValue(request.getInputStream(), Credenciais.class);
 		} catch (java.io.IOException e) {
-			throw new ResourceAccessException("ok");
+			throw new ResourceAccessException(e.getMessage());
 		}
 		UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(usuario.getEmail(), usuario.getPassword());
 		this.setDetails(request, authToken);
 		return this.authenticationManager.authenticate(authToken);
-		
 	}
 	
 	@Override
 	protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult) throws IOException, ServletException, java.io.IOException {
-		
 		Usuario usuario = (Usuario) authResult.getPrincipal();
 		String username = usuario.getEmail();
 		String accessType = usuario.getProfessor() == null ? "aluno" : "professor";
 		String token = this.tokenUtil.buildJwtToken(username, accessType);
 		response.addHeader(HttpHeaders.AUTHORIZATION, "Bearer " + token);
+		response.addHeader(HttpHeaders.ACCESS_CONTROL_EXPOSE_HEADERS, HttpHeaders.AUTHORIZATION);
 	}
 	
 	private static class Credenciais {
-		
 		private String email;
 		private String password;
 		
