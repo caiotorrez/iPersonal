@@ -19,7 +19,10 @@ import com.ipersonal.model.Aluno;
 import com.ipersonal.model.Usuario;
 import com.ipersonal.repository.UsuarioRepository;
 import com.ipersonal.v1.endpoint.dto.CadastroDTO;
+import com.ipersonal.v1.endpoint.dto.ChangePasswordDTO;
+import com.ipersonal.v1.endpoint.dto.EmailDTO;
 import com.ipersonal.v1.endpoint.dto.UsuarioDTO;
+import com.ipersonal.v1.endpoint.dto.ValidationRegisterDTO;
 import com.ipersonal.v1.endpoint.service.CadastroService;
 
 @RequestMapping
@@ -37,11 +40,12 @@ public class CadastroEndpoint implements Serializable {
 	}
 
 	@PostMapping("checkout/email")
-	public ResponseEntity<UsuarioDTO> checkoutEmail(@RequestBody @Valid UsuarioDTO usuario, Errors errors) {
-		if (this.usuarioRepository.existsByEmail(usuario.getEmail())) {
-			return ResponseEntity.ok(usuario);
+	public ResponseEntity<EmailDTO> checkoutEmail(@RequestBody @Valid EmailDTO email, Errors errors) {
+		if (email == null || email.getEmail() == null || !this.usuarioRepository.existsByEmail(email.getEmail())
+				|| errors.hasErrors()) {
+			return ResponseEntity.ok(null);
 		}
-		return ResponseEntity.ok(null);
+		return ResponseEntity.ok(email);
 	}
 
 	@PostMapping("cadastro")
@@ -53,44 +57,52 @@ public class CadastroEndpoint implements Serializable {
 			throw new ResponseStatusException(HttpStatus.CONFLICT, "Email já cadastrado");
 		}
 		Aluno aluno = this.alunoService.register(cadastro);
-		return ResponseEntity.created(ServletUriComponentsBuilder.fromCurrentRequest().path("{id}")
-				.buildAndExpand(aluno.getId()).toUri()).build();
+		return ResponseEntity.created(
+				ServletUriComponentsBuilder.fromCurrentRequest().path("{id}").buildAndExpand(aluno.getId()).toUri())
+				.build();
 	}
 
 	@PostMapping("validation")
-	public ResponseEntity<UsuarioDTO> Validation(@RequestBody @Valid UsuarioDTO usuario, Errors errors) {
-		Usuario user = this.usuarioRepository.findByIdToEnable(usuario.getIdToEnable());
-		if (user != null && user.getIdToEnable() != null) {
+	public ResponseEntity<ValidationRegisterDTO> validationRegister(@RequestBody @Valid
+			ValidationRegisterDTO validation, Errors errors) {
+		if (errors.hasErrors() || validation == null || validation.getIdToEnable() == null || !this.usuarioRepository.existsByIdToEnable(validation.getIdToEnable())) {
+			ResponseEntity.ok(null);
+		}
+		Usuario user = this.usuarioRepository.findByIdToEnable(validation.getIdToEnable());
+		if (user != null) {
 			user.setEnabled(true);
 			user.setIdToEnable(null);
 			this.usuarioRepository.save(user);
-			return ResponseEntity.ok(usuario);
+			return ResponseEntity.ok(validation);
 		}
 		return ResponseEntity.ok(null);
 	}
 
 	@PostMapping("forgot-password")
 	public ResponseEntity<UsuarioDTO> forgotenPassword(@RequestBody @Valid UsuarioDTO usuario, Errors errors) {
-		if (!this.usuarioRepository.existsByEmailAndEnabledTrue(usuario.getEmail())) { 
+		if (!this.usuarioRepository.existsByEmailAndEnabledTrue(usuario.getEmail())) {
 			return ResponseEntity.ok(null);
 		}
 		return ResponseEntity.ok(this.alunoService.recoveryPassword(usuario));
 	}
-	
+
 	@PostMapping("checkout/password")
-	public ResponseEntity<UsuarioDTO> checkoutPassword(@RequestBody @Valid UsuarioDTO usuario, Errors errors) {
-		if (this.usuarioRepository.existsByChangePasswordId(usuario.getChangePasswordId())) {
-			return ResponseEntity.ok(usuario);
-		}
-		return ResponseEntity.ok(null);
-	}
-	
-	@PostMapping("change-password")
-	public ResponseEntity<UsuarioDTO> changePassword(@RequestBody @Valid UsuarioDTO usuario, Errors errors) {
-		if (!this.usuarioRepository.existsByChangePasswordId(usuario.getChangePasswordId())) {
+	public ResponseEntity<@Valid ChangePasswordDTO> checkoutPassword(@RequestBody @Valid ChangePasswordDTO validation, Errors errors) {
+		if (errors.hasErrors() || validation == null || validation.getChangePasswordId() == null || 
+				!this.usuarioRepository.existsByChangePasswordId(validation.getChangePasswordId())) {
 			return ResponseEntity.ok(null);
 		}
-		return ResponseEntity.ok(this.alunoService.changePassword(usuario));
+		// Se por opção quiser invalidar a URL o lugar é aqui
+		return ResponseEntity.ok(validation);
 	}
-	
+
+	@PostMapping("change-password")
+	public ResponseEntity<ChangePasswordDTO> changePassword(@RequestBody @Valid ChangePasswordDTO validation, Errors errors) {
+		if (errors.hasErrors() || validation == null || validation.getChangePasswordId() == null || 
+				!this.usuarioRepository.existsByChangePasswordId(validation.getChangePasswordId())) {
+			return ResponseEntity.ok(null);
+		}
+		return ResponseEntity.ok(this.alunoService.changePassword(validation));
+	}
+
 }

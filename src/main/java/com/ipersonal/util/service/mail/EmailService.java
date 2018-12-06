@@ -1,4 +1,4 @@
-package com.ipersonal.util.service;
+package com.ipersonal.util.service.mail;
 
 import org.springframework.mail.SimpleMailMessage;
 

@@ -28,8 +28,7 @@ public class Perfil extends EntidadeFilha {
 	@Length(min = 3, max = 40, message = "Deve ser no mínimo 5 e no máximo 40 caractérs")
 	private String sobrenome;
 
-//	@DateTimeFormat(pattern = "dd/MM/yyyy")
-//	@NotEmpty(message = "A data não pode ser em branco")
+	@NotEmpty(message = "A data não pode ser em branco")
 	private Date nascimento;
 
 	@NotEmpty(message = "O cep não pode ser em branco")

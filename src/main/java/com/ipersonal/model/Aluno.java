@@ -1,18 +1,17 @@
 package com.ipersonal.model;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.MapsId;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class Aluno extends EntidadeFilha {
@@ -21,15 +20,21 @@ public class Aluno extends EntidadeFilha {
 	@OneToOne
 	@MapsId
 	private Usuario usuario;
-	
+
+	@OneToOne(cascade = CascadeType.ALL)
+	private Anamnese anamnese;
+
 	@ManyToOne
 	@JoinColumn(name = "professor_id")
 	private Professor professor;
 
-	@JsonIgnore
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "aluno", fetch = FetchType.EAGER)
-	private List<FichaAvaliacaoFisica> fichaAvaliacaoFisica = new ArrayList<FichaAvaliacaoFisica>();
+	@OneToMany(cascade = CascadeType.ALL)
+	private List<AvaliacaoBasica> avaliacaoFisica = new ArrayList<>();
 	
+	@OneToMany(cascade = CascadeType.ALL)
+	@JoinColumn(name = "aluno_id_ficha_de_treino_id")
+	private Set<FichaDeTreino> fichaDeTreino = new HashSet<>();
+
 	public Aluno() {
 	}
 
@@ -53,11 +58,20 @@ public class Aluno extends EntidadeFilha {
 		this.professor = professor;
 	}
 
-	public List<FichaAvaliacaoFisica> getFichaAvaliacaoFisica() {
-		return fichaAvaliacaoFisica;
+	public List<AvaliacaoBasica> getAvaliacaoFisica() {
+		return avaliacaoFisica;
 	}
 
-	public void setFichaAvaliacaoFisica(List<FichaAvaliacaoFisica> fichaAvaliacaoFisica) {
-		this.fichaAvaliacaoFisica = fichaAvaliacaoFisica;
+	public void setAvaliacaoFisica(List<AvaliacaoBasica> avaliacaoFisica) {
+		this.avaliacaoFisica = avaliacaoFisica;
 	}
+
+	public Anamnese getAnamnese() {
+		return anamnese;
+	}
+
+	public void setAnamnese(Anamnese anamnese) {
+		this.anamnese = anamnese;
+	}
+
 }

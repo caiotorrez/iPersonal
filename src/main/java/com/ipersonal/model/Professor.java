@@ -10,25 +10,13 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.validation.constraints.NotNull;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 @Entity
 public class Professor extends EntidadeBase {
-
 	private static final long serialVersionUID = 1L;
-	
 	
 	@OneToOne
 	@MapsId
 	private Usuario usuario;
-	
-	public Usuario getUsuario() {
-		return usuario;
-	}
-
-	public void setUsuario(Usuario usuario) {
-		this.usuario = usuario;
-	}
 
 	@NotNull(message = "O CREF não pode ser em branco")
 	private String cref;
@@ -57,5 +45,13 @@ public class Professor extends EntidadeBase {
 
 	public void setCref(String cref) {
 		this.cref = cref;
+	}
+	
+	public Usuario getUsuario() {
+		return usuario;
+	}
+
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
 	}
 }

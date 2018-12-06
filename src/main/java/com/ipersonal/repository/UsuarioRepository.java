@@ -21,4 +21,7 @@ public interface UsuarioRepository extends PagingAndSortingRepository<Usuario, L
 
 	Optional<Usuario> findByChangePasswordId(String changePasswordId);
 
+	boolean existsByIdToEnable(String idToEnable);
+	
+
 }

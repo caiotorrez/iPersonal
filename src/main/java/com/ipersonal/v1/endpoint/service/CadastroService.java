@@ -16,8 +16,9 @@ import com.ipersonal.model.Usuario;
 import com.ipersonal.repository.AlunoRepository;
 import com.ipersonal.repository.PerfilRepository;
 import com.ipersonal.repository.UsuarioRepository;
-import com.ipersonal.util.service.EmailService;
+import com.ipersonal.util.service.mail.EmailService;
 import com.ipersonal.v1.endpoint.dto.CadastroDTO;
+import com.ipersonal.v1.endpoint.dto.ChangePasswordDTO;
 import com.ipersonal.v1.endpoint.dto.PerfilDTO;
 import com.ipersonal.v1.endpoint.dto.UsuarioDTO;
 
@@ -84,20 +85,21 @@ public class CadastroService implements Serializable {
 		return usuarioDTO;
 	}
 
-	public UsuarioDTO changePassword(UsuarioDTO usuarioDTO) {
-		Usuario usuario = this.usuarioRepository.findByChangePasswordId(usuarioDTO.getChangePasswordId())
+	public ChangePasswordDTO changePassword(ChangePasswordDTO validation) {
+		Usuario usuario = this.usuarioRepository.findByChangePasswordId(validation.getChangePasswordId())
 				.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
 		new Date();
 		if (usuario.getForgotPasswordDateTime() == null || usuario.getChangePasswordId() == null ||
 				usuario.getForgotPasswordDateTime().before(Date.from(Instant.now()))) {
 			return null;
 		}
-		usuario.setPassword(new BCryptPasswordEncoder().encode(usuarioDTO.getPassword()));
+		usuario.setPassword(new BCryptPasswordEncoder().encode(validation.getPassword()));
 		usuario.setChangePasswordDateTime(Date.from(Instant.now()));
 		usuario.setForgotPasswordDateTime(null);
 		usuario.setChangePasswordId(null);
 		this.usuarioRepository.save(usuario);
-		return usuarioDTO;
+		validation.setPassword(null);
+		return validation;
 	}
 
 }

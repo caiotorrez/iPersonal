@@ -1,31 +1,31 @@
 package com.ipersonal.model;
 
-import javax.persistence.Entity;
+import javax.persistence.Embeddable;
 
-@Entity
-public class ComposicaoCorporal extends EntidadeBase {
+@Embeddable
+public class ComposicaoCorporal extends EntidadeFilha {
 	private static final long serialVersionUID = 1L;
-	
+
 	private Double percentualGordura;
-	
+
 	private Double massaMagra;
-	
+
 	private Double massaGorda;
-	
+
 	private Double massaMuscular;
-	
+
 	private Double massaOssea;
-	
+
 	private Double massaResidual;
-	
+
 	private Double indiceCinturaQuadril;
-	
+
 	private String classificacaoICQ;
-	
+
 	private Double indiceMassaCorporea;
-	
+
 	private String classificacaoIMC;
-	
+
 	private Double pesoIdeal;
 
 	public Double getPercentualGordura() {
@@ -124,5 +124,5 @@ public class ComposicaoCorporal extends EntidadeBase {
 				+ ", classificacaoICQ=" + classificacaoICQ + ", indiceMassaCorporea=" + indiceMassaCorporea
 				+ ", classificacaoIMC=" + classificacaoIMC + ", pesoIdeal=" + pesoIdeal + "]";
 	}
-	
+
 }

@@ -1,41 +1,41 @@
 package com.ipersonal.model;
 
-import javax.persistence.Entity;
+import javax.persistence.Embeddable;
 
-@Entity
-public class Antropometria extends EntidadeBase {
+@Embeddable
+public class Antropometria extends EntidadeFilha {
 	private static final long serialVersionUID = 1L;
-	
-	
+
+
 	// Dobras Cutaneas
 	private Double dobraTriceps;
-	
+
 	private Double dobraSubescapular;
-	
+
 	private Double dobraSupraIliaca;
-	
+
 	private Double dobraAbdomen;
-	
+
 	// Circuferencias
-	
+
 	private Double bracoDireito;
-	
+
 	private Double bracoEsquerdo;
 
 	private Double antiBracoDireito;
-	
+
 	private Double antiBracoEsquerdo;
-	
+
 	private Double abdomen;
-	
+
 	private Double cintura;
-	
+
 	private Double coxaDireita;
-	
+
 	private Double coxaEsquerda;
-	
+
 	private Double pernaDireita;
-	
+
 	private Double pernaEsquerda;
 
 	public Double getDobraTriceps() {
@@ -159,5 +159,5 @@ public class Antropometria extends EntidadeBase {
 				+ ", coxaDireita=" + coxaDireita + ", coxaEsquerda=" + coxaEsquerda + ", pernaDireita=" + pernaDireita
 				+ ", pernaEsquerda=" + pernaEsquerda + "]";
 	}
-	
+
 }

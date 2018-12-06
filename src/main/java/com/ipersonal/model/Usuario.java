@@ -38,7 +38,7 @@ public class Usuario extends EntidadeBase {
 	@Column(unique = true)
 	private String idToEnable;
 	
-	@Column(unique = true, length=500)
+	@Column(unique = true)
 	private String changePasswordId;
 	
 	private Date changePasswordDateTime;

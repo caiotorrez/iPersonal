@@ -1,4 +1,4 @@
-package com.ipersonal.util.service;
+package com.ipersonal.util.service.mail;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.MailSender;

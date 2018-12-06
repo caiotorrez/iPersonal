@@ -1,7 +1,6 @@
 package com.ipersonal.v1.endpoint.dto;
 
 import java.io.Serializable;
-import java.util.Date;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
@@ -16,11 +15,6 @@ public class UsuarioDTO implements Serializable {
 
 	@NotNull(message = "O password do usuário não pode ser em branco")
 	private String password;
-
-	private String idToEnable;
-	private String changePasswordId;
-	private Date changePasswordDateTime;
-	private Date forgotPasswordDateTime;
 
 	public UsuarioDTO(String email, String password) {
 		this.email = email;
@@ -43,41 +37,9 @@ public class UsuarioDTO implements Serializable {
 		this.password = password;
 	}
 
-	public String getIdToEnable() {
-		return idToEnable;
-	}
-
-	public void setIdToEnable(String idOfEnable) {
-		this.idToEnable = idOfEnable;
-	}
-
-	public String getChangePasswordId() {
-		return changePasswordId;
-	}
-
-	public void setChangePasswordId(String changePasswordId) {
-		this.changePasswordId = changePasswordId;
-	}
-
-	public Date getChangePasswordDateTime() {
-		return changePasswordDateTime;
-	}
-
-	public void setChangePasswordDateTime(Date changePasswordDateTime) {
-		this.changePasswordDateTime = changePasswordDateTime;
-	}
-
-	public Date getForgotPasswordDateTime() {
-		return forgotPasswordDateTime;
-	}
-
-	public void setForgotPasswordDateTime(Date forgotPasswordDateTime) {
-		this.forgotPasswordDateTime = forgotPasswordDateTime;
-	}
-
 	@Override
 	public String toString() {
-		return "UsuarioDTO [email=" + email + ", password=" + password + ", idToEnable=" + idToEnable + "]";
+		return "UsuarioDTO [email=" + email + ", password=" + password + ", idToEnable=" + "]";
 	}
 
 }
