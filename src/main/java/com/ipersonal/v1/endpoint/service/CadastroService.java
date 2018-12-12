@@ -42,7 +42,7 @@ public class CadastroService implements Serializable {
 		this.emailService = emailService;
 	}
 
-	private Usuario buildUsuario(UsuarioDTO usuarioDTO) {
+	private Usuario buildUsuario(UsuarioDTO usuarioDTO) { 
 		Usuario usuario = new Usuario(usuarioDTO.getEmail(),
 				new BCryptPasswordEncoder().encode(usuarioDTO.getPassword()));
 		usuario.setIdToEnable(RandomString.make(180));
