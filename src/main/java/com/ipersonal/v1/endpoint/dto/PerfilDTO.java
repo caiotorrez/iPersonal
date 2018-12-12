@@ -18,7 +18,7 @@ public class PerfilDTO implements Serializable {
 	@Length(min = 3, max = 40, message = "Deve ser no mínimo 5 e no máximo 40 caractérs")
 	private String sobrenome;
 
-	@NotEmpty(message = "A data não pode ser em branco")
+//	@NotEmpty(message = "A data não pode ser em branco")
 	private String nascimento;
 
 	@NotEmpty(message = "O cep não pode ser em branco")

@@ -63,9 +63,10 @@ public class CadastroService implements Serializable {
 		Usuario usuario = this.usuarioRepository.save(this.buildUsuario(cadastro.getUsuario()));
 		usuario.setIdToEnable(usuario.getIdToEnable() + RandomString.hashOf(usuario.getId().intValue()));
 		usuario = this.usuarioRepository.save(usuario);
-		this.perfilRepository.save(this.buildPerfil(cadastro.getPerfil(), usuario));
+		Perfil perfil = this.perfilRepository.save(this.buildPerfil(cadastro.getPerfil(), usuario));
 		Aluno aluno = this.alunoRepository.save(new Aluno(usuario));
-		this.emailService.sendEmailToConfirmationUser(aluno.getUsuario());
+		usuario.setPerfil(perfil);
+		this.emailService.sendEmailToConfirmationUser(usuario);
 		return aluno;
 	}
 

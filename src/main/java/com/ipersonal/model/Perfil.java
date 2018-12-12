@@ -9,6 +9,7 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Pattern;
 
 import org.hibernate.validator.constraints.Length;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
@@ -28,7 +29,7 @@ public class Perfil extends EntidadeFilha {
 	@Length(min = 3, max = 40, message = "Deve ser no mínimo 5 e no máximo 40 caractérs")
 	private String sobrenome;
 
-	@NotEmpty(message = "A data não pode ser em branco")
+	@DateTimeFormat
 	private Date nascimento;
 
 	@NotEmpty(message = "O cep não pode ser em branco")
